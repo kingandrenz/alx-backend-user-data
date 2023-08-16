@@ -30,6 +30,7 @@ def users() -> str:
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
 
+
 @app.route("/sessions", methods=["POST"], strict_slashes=False)
 def login():
     """ this function responds to the POST /session
@@ -41,11 +42,10 @@ def login():
         abort(401)
 
     session_id = Auth.create_session(email)
-    resp = jsonify({"email": f"{email}", "message": "logged in"})
-    resp.set_cookie("session", session_id)
-    
-    return resp
+    response = jsonify({"email": f"{email}", "message": "logged in"})
+    response.set_cookie("session_id", session_id)
 
+    return response
 
 
 if __name__ == "__main__":
