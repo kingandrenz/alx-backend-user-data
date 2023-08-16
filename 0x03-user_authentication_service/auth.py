@@ -82,3 +82,16 @@ class Auth:
         except NoResultFound:
 
             return None
+
+    def get_user_from_session_id(self, session_id: str) -> Union[User, None]:
+        """ return User on None if user is not found
+        """
+        try:
+            if not session_id:
+
+                return None
+            user = self._db.find_user_by(session_id=session_id)
+
+            return user
+        except NoResultFound:
+            raise None
