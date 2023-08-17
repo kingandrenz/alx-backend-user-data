@@ -49,7 +49,7 @@ def login():
 
 
 @app.route("/sessions", methods=["DELETE"], strict_slashes=False)
-def logout():
+def logout() -> str:
     """ logout with session ID
     """
     session_id = request.cookies.get("session_id")
@@ -61,7 +61,7 @@ def logout():
 
 
 @app.route("/profile", methods=["GET"], strict_slashes=False)
-def profile():
+def profile() -> str:
     """ find if user exists and respon with 200
     """
     session_id = request.cookies.get("session_id")
@@ -69,7 +69,7 @@ def profile():
 
     if user is None:
         abort(403)
-    return jsonify{"email": f"{user.email}"), 200
+    return jsonify({"email": f"{user.email}"}), 200
 
 
 if __name__ == "__main__":
