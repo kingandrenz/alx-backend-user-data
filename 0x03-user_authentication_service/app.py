@@ -33,10 +33,10 @@ def users() -> str:
 
 @app.route("/sessions", methods=["POST"], strict_slashes=False)
 def login() -> str:
-     """POST /sessions
+    """ POST /sessions
     Return:
         - The account login payload.
-    """
+        """
     email = request.form.get("email")
     password = request.form.get("password")
 
@@ -66,7 +66,7 @@ def logout():
 
 @app.route("/profile", methods=["GET"], strict_slashes=False)
 def profile() -> str:
-     """GET /profile
+    """ GET /profile
     Return:
         - The user's profile information.
     """
