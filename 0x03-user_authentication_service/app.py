@@ -32,8 +32,10 @@ def users() -> str:
 
 
 @app.route("/sessions", methods=["POST"], strict_slashes=False)
-def login():
-    """ this function responds to the POST /session
+def login() -> str:
+     """POST /sessions
+    Return:
+        - The account login payload.
     """
     email = request.form.get("email")
     password = request.form.get("password")
@@ -50,10 +52,11 @@ def login():
 
 @app.route("/sessions", methods=["DELETE"], strict_slashes=False)
 def logout():
+    """DELETE /sessions
+    Return:
+        - Redirects to home route.
     """
-    Log out a logged in user and destroy their session
-    """
-    session_id = request.cookies.get("session_id", None)
+    session_id = request.cookies.get("session_id")
     user = AUTH.get_user_from_session_id(session_id)
     if user is None or session_id is None:
         abort(403)
@@ -63,8 +66,9 @@ def logout():
 
 @app.route("/profile", methods=["GET"], strict_slashes=False)
 def profile() -> str:
-    """
-    Return a user's email based on session_id in the received cookies
+     """GET /profile
+    Return:
+        - The user's profile information.
     """
     session_id = request.cookies.get("session_id")
     user = AUTH.get_user_from_session_id(session_id)
