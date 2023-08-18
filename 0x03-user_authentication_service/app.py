@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 """ basic flask app
 """
-from flask import Flask, jsonify, request, make_response, abort, redirect
+from flask import (
+    Flask,
+    jsonify,
+    request,
+    make_response,
+    abort,
+    redirect,
+    url_for
+)
 from auth import Auth
 
 app = Flask(__name__)
@@ -51,7 +59,7 @@ def login() -> str:
 
 
 @app.route("/sessions", methods=["DELETE"], strict_slashes=False)
-def logout():
+def logout() -> str:
     """DELETE /sessions
     Return:
         - Redirects to home route.
