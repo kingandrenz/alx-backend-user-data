@@ -13,7 +13,7 @@ from flask import (
 from auth import Auth
 
 app = Flask(__name__)
-Auth = Auth()
+AUTH = Auth()
 
 
 @app.route("/", methods=["GET"], strict_slashes=False)
@@ -32,7 +32,7 @@ def users() -> str:
     email = request.form.get("email")
     password = request.form.get("password")
     try:
-        user = Auth.register_user(email, password)
+        user = AUTH.register_user(email, password)
 
         return jsonify({"email": user.email, "message": "user created"})
     except ValueError:
@@ -48,10 +48,10 @@ def login() -> str:
     email = request.form.get("email")
     password = request.form.get("password")
 
-    if not Auth.valid_login(email, password):
+    if not AUTH.valid_login(email, password):
         abort(401)
 
-    session_id = Auth.create_session(email)
+    session_id = AUTH.create_session(email)
     response = jsonify({"email": f"{email}", "message": "logged in"})
     response.set_cookie("session_id", session_id)
 
@@ -65,10 +65,10 @@ def logout() -> str:
         - Redirects to home route.
     """
     session_id = request.cookies.get("session_id")
-    user = Auth.get_user_from_session_id(session_id)
+    user = AUTH.get_user_from_session_id(session_id)
     if user is None or session_id is None:
         abort(403)
-    Auth.destroy_session(user.id)
+    AUTH.destroy_session(user.id)
     return redirect("/")
 
 
@@ -79,7 +79,7 @@ def profile() -> str:
         - The user's profile information.
     """
     session_id = request.cookies.get("session_id")
-    user = Auth.get_user_from_session_id(session_id)
+    user = AUTH.get_user_from_session_id(session_id)
     if user is None:
         abort(403)
     return jsonify({"email": user.email}), 200
@@ -112,7 +112,7 @@ def update_password() -> str:
     reset_token = request.form.get("reset_token")
     new_password = request.form.get("new_password")
     try:
-        Auth.update_password(reset_token, new_password)
+        AUTH.update_password(reset_token, new_password)
     except ValueError:
         abort(403)
 
