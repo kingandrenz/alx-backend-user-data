@@ -20,8 +20,7 @@ def _hash_password(password: str) -> bytes:
     Returns:
         bytes: The salted hash of the input password
     """
-    salt = bcrypt.gensalt()
-    hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bycrypt.gensalt())
 
     return hashed_password
 
@@ -127,8 +126,6 @@ class Auth:
         try:
             user = self._db.find_user_by(reset_token=reset_token)
         except NoResultFound:
-            user = None
-        if user = None:
             raise ValueError()
 
         hashed = _hash_password(password)
